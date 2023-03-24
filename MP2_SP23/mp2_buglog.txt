@@ -1,0 +1,43 @@
+Kevin Kim
+sangwoo2
+
+MP2 CP1 Bug log
+
+Bug #1: Player moving out of status bar when it moves down.
+Fix: Went into modex.h and changed the value of IMAGE_Y_DIM from 200 to 182 since 18 pixels are taken up by the status bar. 
+
+Bug #2: Buffer index at first produced symbols instead of texts. 
+Fix: I figured out that I did't have the proper data type to use for the buffer. I used char instead of unsigned char. 
+
+Bug #3: Color inconsistency where the space before the letter is grey but the color in the space after the letters are white. 
+Fix: There was an inconsistency in setting the colors between text_graphic_img_gen and text_instatus functions. I set two different colors up in both functions which caused the colors to appear in different colors
+
+Bug #4: I at first added in spaces to the text I wanted to display on the status bar. This ended up causing segmentation faults where the devel crashed and sometimes, the fonts appeared as symbols in the status bar. 
+Fix: I went to office hours, and one of the CAs, Noelle, told me that there was a formula that caulcates the centering offset for each character in the status bar. I implemented  that through the loop that traverses
+     each plane of the 8 bit character to get the centering offset which is then used to get the text index in the text buffer I created in the text_graphic_img_gen function. 
+
+Bug #5: The text in the status bar seemed a bit higher compared to the one in the mazegame-demo. The demo had its text slightly lower from the top in its status bar. 
+Fix: I just added 1 to the loop that traverses through the height of the status bar, and it adjusted the text in the status bar to the height I wanted it to display. 
+
+MP2 CP2 Bug log
+Bug #6: I had a bug where when I run mazegame in the TEST_NODEBUG program, my timer would start but my player would not move until I press the reset button. Another thing that also happened here is that when I 
+        recompiled the mazegame, the timer would not start over and not show the new time that is running. I could only see the new timer that runs from the new run after pressing reset. 
+Fix: I forgot to include the ioctl command that initializes the tux. This fixed bug #6. 
+
+Bug #7: I had a problem where I keep displaying decimal points on all 4 LEDs. 
+Fix: I was not updating the 4 bits that tells TUX which place to display the decimal point. I fixed this by shifting 1 to the left on a for loop. 
+
+Bug #8: There was a problem with the way how part of the transparent text are covered up by the colors of the wall. Unlike the demo, the transparent text that I had was obscured by the color of the walls.
+Fix: I had to recalculate how I implemented transparent colors in my modex.c. I used a for loop over 3 times where at every level, the color would just be added with white and the division by 2 is the average of the color that
+     will be shown for that level. 
+
+Bug #9: I had a case where the timer in my TUX emulator was displaying the seconds in multiples of 2s. It would go "2, 4, 6, 8, 10, ..."
+Fix: I removed the last right shifting of the timer. It fixed the timer to display in 1 second intervals. 
+
+Bug #10: Whenever the mazegame is compiled, the maze would show a brief quick change in color of the inner color of the walls. 
+Fix: I moved my function that changes the color of the walls to the beginning of the for loop that loops over levels until the level is lost or player quit. 
+
+Bug #11: While trying to draw transparent text, instead of text, the part that the text is supposed to show gets dragged along and created weird patterns over the game. 
+Fix: First of all, my inputs to the functions weren't consistent. I put in other variables on the x positions of the text to show. Second, I messed up the order in which I called my helper functions to create the transparent text. 
+     I got help regarding on how the proper order of functions should be called during Office Hours to determine the order of how the transparent text is made. 
+
