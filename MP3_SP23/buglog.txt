@@ -1,0 +1,141 @@
+<=========================================================>
+<=================>     CheckPoint 1    <=================>
+<=========================================================>
+Assignment:
+    MP3
+CheckPoint:
+    Checkpoint 1
+CreateTime:
+    2022.3.7
+
+<--------------------------------------------------------->
+                          BUG 1                          
+<--------------------------------------------------------->
+Time:
+    2022.03.15.
+Creator:
+    Kevin Kim
+Description:
+    PIC was not working as even though no exception handler was initialized in the launch_test function of the test.c file, it still showed division by 0 handler in the kernel. 
+Solution:
+    	- We found out that we wrote code on the wrong offset to the PIC ports.
+	1. In the i8259_init function of the i8259.c, we initially used the outb function to write to wrong ports - we did not use the data ports on the second, third and fourth outb functions. 
+	2. Initially, we forgot to perform a logical OR operation with the interrupt number as stated in the i8259.h file.
+		- This caused exception handler to always output the first exception handler to show in the kernel where the first exception handler is set as the division by 0 exception handler. 
+
+<--------------------------------------------------------->
+                          BUG 2                         
+<--------------------------------------------------------->
+Time:
+    2022.03.16.
+Creator:
+    Kevin Kim
+Description:
+    The following keyboard inputs resulted in:
+	- press 'a' -> kernel shows 's' is pressed. 
+	- press 'b' -> kernel shows 'n' is pressed. 
+	- press 'c' -> kernel shows 'v' is pressed. 
+	- press 'd' -> kernel shows 'f' is pressed. 
+    The key next of keyboard input is being shown in the kernel every time a keyboard input has been pressed. 
+
+Solution:
+    Found out that we did not include a null-terminating character at the start of the array we put for all lowercase keyboard inputs. 
+
+<--------------------------------------------------------->
+                          BUG 3                         
+<--------------------------------------------------------->
+Time:
+    2022.03.16.
+Creator:
+    Kevin Kim
+Description:
+    printf statement in the RTC_handler function did not show in the kernel while keyboard interrupts are enabled. This indicates that RTC interrupt is not working
+
+Solution:
+    Re-read OSDev once more, used the following in OSDev for the following functions in RTC.c file:
+	- Turning on IRQ 8 => RTC_init
+	- Interrupts and Register C => RTC_handler , also added send_eoi(8) at the end of the RTC_handler function. 
+	
+<--------------------------------------------------------->
+                          BUG 4                         
+<--------------------------------------------------------->
+Time:
+    2022.03.20.
+Creator:
+    Kevin Kim
+Description:
+    Quick multiple keyboard inputs or multiple pressing of keyboard inputs resulted in crashing the kernel. 
+
+Solution:
+    Added assembly linkage, created a file called idt_asm.S for RTC and keyboard interrupts. This fixed the problem where we can press quick succession series of keyboard inputs without having any exceptions 
+    shown in the kernel. 
+
+<--------------------------------------------------------->
+                          BUG 5                         
+<--------------------------------------------------------->
+Time:
+    2022.03.20.
+Creator:
+    Kevin Kim
+Description:
+    Kernel showed page fault exception at memory location 0x007FFFFF. It should not show a page fault exception as kernel exists in that particular memory location.
+
+Solution:
+    Found out that while making test cases for our paging, we used the wrong datatype for our pointer to the memory location. We changed from using uint_32 to character type dereferencing pointer. 
+
+
+
+
+
+
+
+<=========================================================>
+<=================>     CheckPoint 2    <=================>
+<=========================================================>
+Assignment:
+    MP3
+CheckPoint:
+    CP2
+CreateTime:
+    2022.??.??
+
+
+
+
+<=========================================================>
+<=================>     CheckPoint 3    <=================>
+<=========================================================>
+Assignment:
+    MP3
+CheckPoint:
+    CP3
+CreateTime:
+    2022.??.??
+
+
+
+<=========================================================>
+<=================>     CheckPoint 4    <=================>
+<=========================================================>
+Assignment:
+    MP3
+CheckPoint:
+    CP4
+CreateTime:
+    2022.??.??
+
+
+
+
+<=========================================================>
+<=================>     CheckPoint 5    <=================>
+<=========================================================>
+Assignment:
+    MP3
+CheckPoint:
+    CP5
+CreateTime:
+    2022.??.??
+
+
+
