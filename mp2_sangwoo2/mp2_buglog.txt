@@ -1,0 +1,23 @@
+Kevin Kim
+sangwoo2
+
+MP2 CP1 Bug log
+
+Bug #1: Player moving out of status bar when it moves down.
+Fix: Went into modex.h and changed the value of IMAGE_Y_DIM from 200 to 182 since 18 pixels are taken up by the status bar. 
+
+Bug #2: Buffer index at first produced symbols instead of texts. 
+Fix: I figured out that I did't have the proper data type to use for the buffer. I used char instead of unsigned char. 
+
+Bug #3: Color inconsistency where the space before the letter is grey but the color in the space after the letters are white. 
+Fix: There was an inconsistency in setting the colors between text_graphic_img_gen and text_instatus functions. I set two different colors up in both functions which caused the colors to appear in different colors
+
+Bug #4: I at first added in spaces to the text I wanted to display on the status bar. This ended up causing segmentation faults where the devel crashed and sometimes, the fonts appeared as symbols in the status bar. 
+Fix: I went to office hours, and one of the CAs, Noelle, told me that there was a formula that caulcates the centering offset for each character in the status bar. I implemented  that through the loop that traverses
+     each plane of the 8 bit character to get the centering offset which is then used to get the text index in the text buffer I created in the text_graphic_img_gen function. 
+
+Bug #5: The text in the status bar seemed a bit higher compared to the one in the mazegame-demo. The demo had its text slightly lower from the top in its status bar. 
+Fix: I just added 1 to the loop that traverses through the height of the status bar, and it adjusted the text in the status bar to the height I wanted it to display. 
+
+MP2 CP2 Bug log
+Bug #6: When creating a helper function for the case in TUX_IOCTL, I did not update 
